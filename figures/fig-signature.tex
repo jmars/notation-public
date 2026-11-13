@@ -1,0 +1,65 @@
+% fig-signature.tex — the Care signature as boxes.
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+  % --- gen : K -> C (x) K ---
+  \node[box] (gen) at (0,0) {$\mathit{gen}$};
+  \node[circle,draw,thick,fill=black!12,inner sep=0pt,minimum size=3.2mm]
+       (kn) at (-1.7,0) {$\cdot$};
+  \node[lbl] at (kn) [below=0mm] {$\gknower\;\tK$};
+  \draw[thickwire] (kn) -- (gen.west);
+  \draw[wire] (gen.east) ++(0,0) -- ++(0.5,0) -- ++(0,0.5);
+  \node[lbl] at (1.15,0.62) {$\tC$};
+  \draw[thickwire] (gen.east) ++(0,0) -- ++(0.5,0) -- ++(0,-0.5);
+  \node[lbl] at (1.15,-0.62) {$\tK$};
+  % --- red : S -> A ---
+  \node[box] (red) at (5.2,0) {$\mathit{red}$};
+  \draw[wire] (4.2,0) -- (red.west);
+  \node[lbl] at (4.05,0.22) {$\tS$};
+  \draw[wire] (red.east) -- (6.2,0);
+  \node[lbl] at (6.35,0.22) {$\tA$};
+  % --- obj : S -> V ---
+  \node[box] (obj) at (5.2,-1.5) {$\mathit{obj}$};
+  \draw[wire] (4.2,-1.5) -- (obj.west);
+  \node[lbl] at (4.05,-1.28) {$\tS$};
+  \draw[wire] (obj.east) -- (6.2,-1.5);
+  \node[lbl] at (6.35,-1.28) {$\tV$};
+  % --- cons : C, ▷S -> S ---
+  \node[box] (cons) at (0,-3.4) {$\mathit{cons}$};
+  \draw[wire] (-1.4,-3.0) -- (cons.north west);
+  \node[lbl] at (-1.55,-2.78) {$\tC$};
+  \draw[wire] (-1.4,-3.8) -- (cons.south west);
+  \node[bead] (cb) at (-1.95,-3.8) {};
+  \draw[wire] (cb) -- (-1.4,-3.8);
+  \node[lbl] at (-2.1,-3.55) {$\guard\tS$};
+  \draw[wire] (cons.east) -- (1.2,-3.4);
+  \node[lbl] at (1.35,-3.18) {$\tS$};
+  % --- nil : 1 -> T ---
+  \node[box] (nil) at (5.2,-3.4) {$\mathit{nil}$};
+  \draw[wire] (nil.east) -- (6.2,-3.4);
+  \node[lbl] at (6.35,-3.18) {$\tT$};
+  \node[lbl] at (4.6,-3.15) {$\tUnit$};
+  \draw[wire] (4.2,-3.4) -- (nil.west);
+  % --- snoc : T, C -> T ---
+  \node[box] (snoc) at (0,-5.6) {$\mathit{snoc}$};
+  \draw[wire] (-1.4,-5.25) -- (snoc.north west);
+  \node[lbl] at (-1.55,-5.03) {$\tT$};
+  \draw[wire] (-1.4,-5.95) -- (snoc.south west);
+  \node[lbl] at (-1.55,-6.2) {$\tC$};
+  \draw[wire] (snoc.east) -- (1.2,-5.6);
+  \node[lbl] at (1.35,-5.38) {$\tT$};
+  % --- terminate : K -> T ---
+  \node[box] (term) at (5.2,-5.6) {$\mathit{terminate}$};
+  \draw[thickwire] (4.2,-5.6) -- (term.west);
+  \node[lbl] at (4.05,-5.38) {$\tK$};
+  \draw[wire] (term.east) -- (6.2,-5.6);
+  \node[lbl] at (6.35,-5.38) {$\tT$};
+\end{tikzpicture}
+\caption{The Care signature. Each constant of the calculus is a box with
+typed ports; thin wires are linear sorts, the thick rail is the knower
+$\gknower$~$\tK$. The generator $\mathit{gen}$ is the coalgebra at the
+knower node; $\mathit{cons}$ demands a delayed tail ($\guard\tS$ — the bead
+on its second input); $\mathit{nil}$ and $\mathit{snoc}$ build and extend
+the archive $\tT$; $\mathit{terminate}$ archives a knower in one step.}
+\label{fig:signature}
+\end{figure}

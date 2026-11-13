@@ -1,0 +1,69 @@
+% fig-cut.tex — the cut as splicing; the mutual promise as an unreduced composite.
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+  % ---- panel (a): the splice ----
+  \node[lbl,align=left] at (1.9,1.5) {(a) the cut: a pending\\ linear wire is spliced};
+  % the promise box: context in, hole on the input fringe, conclusion out
+  \node[box,minimum width=16mm,minimum height=14mm] (big) at (1.9,0.3) {};
+  \node[font=\small] at (1.9,0.3) {$h$};
+  \draw[wire] (0.0,0.75) -- (big.160);
+  \node[lbl] at (-0.1,0.98) {$\Gamma_L$};
+  \draw[wire] (0.0,-0.15) -- (big.200);
+  \node[lbl] at (-0.1,-0.38) {$\Gamma_R$};
+  \draw[wire] (big.east) -- (3.8,0.3);
+  \node[lbl] at (3.95,0.55) {$\sigma$};
+  % the hole: a dashed circle on the input fringe between the two blocks
+  \node[draw,dashed,circle,inner sep=0pt,minimum size=3.4mm]
+       (hole) at (0.55,0.3) {};
+  \node[lbl] at (0.55,0.02) {$a$ (the hole)};
+  % the argument box producing a
+  \node[box] (arg) at (1.9,-1.7) {$\mathit{arg}$};
+  \draw[wire] (arg.east) -- ++(1.5,0) -- ++(0,1.1) -- (3.8,-0.6);
+  \node[lbl] at (4.25,-0.85) {};
+  \node[lbl] at (3.6,-1.45) {$a$};
+  % the splice arrow
+  \node[font=\Large] at (5.3,0.0) {$\Rightarrow$};
+  % after: one box, Delta inserted AT THE HOLE'S POSITION (ordered)
+  \node[box,minimum width=16mm,minimum height=16mm] (fused) at (7.6,0.0) {};
+  \node[font=\small] at (7.6,0.35) {$h'$};
+  \node[font=\scriptsize\itshape] at (7.6,-0.35) {$\mathit{arg}$ spliced};
+  \draw[wire] (5.9,0.55) -- (fused.160);
+  \node[lbl] at (5.75,0.78) {$\Gamma_L$};
+  \draw[wire] (5.9,-0.35) -- (fused.200);
+  \node[lbl] at (5.75,-0.58) {$\Gamma_R$};
+  \draw[wire] (5.9,0.1) -- (fused.185);
+  \node[lbl] at (5.8,-0.05) {$\Delta$};
+  \draw[wire] (fused.east) -- (9.5,0.0);
+  \node[lbl] at (9.65,0.25) {$\sigma$};
+  \node[lbl,text=black!45] at (7.6,-1.35)
+        {$\Gamma_L \,{+}\, \Delta \,{+}\, \Gamma_R$, in that order};
+  % ---- panel (b): the mutual promise ----
+  \node[lbl,align=left] at (1.9,-3.3)
+        {(b) the mutual promise:\\ two boxes, one ungueded cycle};
+  \node[box] (l1) at (1.2,-4.3) {$\lambda_1$};
+  \node[box] (l2) at (3.4,-4.3) {$\lambda_2$};
+  \draw[wire] (l1.east) to[out=25,in=155] (l2.west);
+  \draw[wire] (l2.east) to[out=-90,in=0] (4.4,-5.2) -- (0.2,-5.2)
+        to[out=180,in=-90] (l1.west);
+  \node[lbl,text=red!60!black] at (2.3,-5.55)
+        {no $\guard$ anywhere on this cycle};
+  \node[font=\Large] at (5.3,-4.6) {$\Rightarrow$};
+  \node[box,minimum width=14mm] (nf) at (7.2,-4.6) {$\mathit{normal}$};
+  \node[lbl,text=black!45] at (7.2,-5.3) {a ledger with no pending promises};
+  \node[lbl] at (9.0,-4.6) {};
+\end{tikzpicture}
+\caption{(a) The cut. A derivation $h$ at an ordered context
+$\Gamma_L \,{+}\, a \,{+}\, \Gamma_R$ leaves a hole of type $a$ on its input
+fringe; the derivation of the argument plugs that hole, and the $\Delta$
+block takes the hole's position — order is preserved, nothing is commuted.
+This is the diagrammatic reading of \texttt{Dcare.linear\_cut}
+\meas{machine-checked at the term level}, with the size law of
+\texttt{Dcare.linear\_beta\_splice}: the spliced composite is exactly three
+nodes smaller than the redex it resolves.
+(b) The mutual promise — two abstractions, each waiting on the other's
+output. It is \emph{not} a legal feedback (there is no guard bead on the
+cycle, and thin wires cannot cross an envelope); it is an unreduced
+composite, and the cut dissolves it.}
+\label{fig:cut}
+\end{figure}

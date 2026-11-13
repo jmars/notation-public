@@ -1,0 +1,15 @@
+# LaTeX build artifacts — regenerate with scripts/build.sh
+paper.aux
+paper.log
+paper.bbl
+paper.blg
+paper.out
+paper.pdf
+paper.pag
+paper.toc
+paper.fls
+paper.fdb_latexmk
+paper.synctex.gz
+# gate scratch
+scripts/.par.tmp
+missfont.log
