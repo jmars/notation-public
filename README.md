@@ -4,7 +4,9 @@ Artifact for the paper `paper.tex`:
 
 > *The Guarded Syntax: A String-Diagram Notation for Linear Resource Calculi*
 
-<!-- DOI PENDING -->
+**Published: concept doi [10.5281/zenodo.24221796](https://doi.org/10.5281/zenodo.24221796)** —
+it always resolves to the latest archived version. Cite the paper by the concept DOI;
+[v1.0.0](https://doi.org/10.5281/zenodo.24221797) is the first archived version.
 
 String diagrams give linear proof theory a geometry, but the standard diagrams —
 proof nets, and the symmetric-monoidal calculus of Joyal and Street — build in a
