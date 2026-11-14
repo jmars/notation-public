@@ -19,7 +19,7 @@ sed 's/\\dcn{\([^}]*\)}/Dcare.\1/g' "$PAPER" \
   | awk 'BEGIN{RS=""; ORS="\n"} {gsub(/\n/," "); gsub(/\\_/,"_"); print}' > "$PAR"
 
 # --- 1. required sections ---
-for s in "Introduction" "The core graphical language" "The Care signature" \
+for s in "Introduction" "as a written grammar" "The Care signature" \
          "as ungeneratable shapes" "worked diagrams" "The correspondence, stated precisely" \
          "Related work" "Interpretive remarks" "Conclusion"; do
   if rg -q "\\\\section\{.*$s" "$PAPER"; then green "PASS section: $s"
@@ -82,6 +82,16 @@ if [ "${nc:-0}" -eq 5 ]; then green "PASS five claims"
 else red "FAIL claims: found ${nc:-0}, need 5"; fail=1; fi
 if [ "${ns:-0}" -ge 4 ]; then green "PASS proof sketches ($ns)"
 else red "FAIL proof sketches: ${ns:-0}"; fail=1; fi
+
+# --- 6b. the grammar is the paper's subject: operators, law errors,
+#         and the one-line cycle must all be present ---
+rg -q 'The five operators' "$PAPER" && green "PASS operator table" \
+  || { red "FAIL no five-operator table"; fail=1; }
+ne=$(rg -c '\\lawerr\b' "$PAPER" || echo 0)
+if [ "${ne:-0}" -ge 2 ]; then green "PASS law-error displays ($ne)"
+else red "FAIL law-error displays: ${ne:-0} < 2"; fail=1; fi
+rg -q 'schematic form of the' "$PAR" && green "PASS one-line cycle (the schematic display)" \
+  || { red "FAIL no one-line cycle schematic"; fail=1; }
 
 # --- 7. related work present and populated ---
 if rg -q '\\section\{Related work\}' "$PAPER"; then

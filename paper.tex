@@ -18,31 +18,37 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-String diagrams give linear proof theory a geometry, but the
-standard diagrams --- proof nets, and the symmetric-monoidal calculus of
-Joyal and Street --- build in a symmetry that ordered resource calculi do
-not have. We introduce the \emph{Guarded Syntax}, a planar string-diagram
-notation for the Care Calculus, a multi-sorted ordered linear logic with
-coalgebraic generators and guarded recursion, mechanized in Lean~4. The
-notation separates into a core graphical language --- planar directed
-wires in two gauges, boxes, a delay bead $\guard$ decorating a wire, and a
-feedback envelope $\gfeed$ whose loops must pass through at least one
-guard --- and a signature of generators: the knower node $\gknower$, the
-one sort whose wires may branch; the reducer, archive and valuation boxes;
-and the trace sink $\gsink$, where content can legally go to die. We state
-the correspondence precisely: well-formed diagrams translate to derivations
-and back (claims with proof sketches, anchored at the term level to
-machine-checked theorems); the linear cut is diagrammatically the splicing
-of a wire into the hole it closes, resolving the ``mutual promise'' of two
-abstractions each waiting on the other as an unreduced composite; and
-feedback is legal exactly when guarded --- the diagrammatic form of the
-side condition that makes self-application cost a context. Well-formedness
-is compositional: there is no global correctness criterion, and the two
-linearity laws of the calculus are not forbidden moves to be checked after
-drawing but shapes the grammar simply cannot generate --- a linear wire has
-no junction, and a content wire has no bare end. Every diagram in this
-paper is drawn from a named, machine-checked derivation; the diagram-level
-correspondence is stated, not mechanized.
+We introduce the \emph{Guarded Syntax}, a written notation for the Care
+Calculus, a multi-sorted ordered linear logic with coalgebraic
+generators and guarded recursion, mechanized in Lean~4. The notation has
+five operators: the knower $\gknower$, the one Cartesian source; the
+linear wire $\glto$, which consumes the left and produces the right
+exactly once; the guard $\guard$, one interval of delay; the feed
+$\gfeed$, which binds a delayed output back into its own definition (the
+$+1$); and the sink $\gsink$, the archive where content is recorded and
+never read (the $-1$). Agent definitions are one-line expressions of
+this grammar, and they have a planar string-diagram reading --- wires in
+two gauges, guard beads, feedback envelopes --- that we develop
+alongside: the standard diagram languages build in a symmetry that
+ordered resource calculi do not have, so the reading is planar, and the
+one definable exchange is an explicit swap-box. The calculus's two
+linearity laws appear twice: as expressions that fail to type (a
+cloner, an eraser --- the archive is legal, and the difference is
+load-bearing), and as theorem statements with machine-checked fragment
+strengths. We state the correspondence precisely: well-formed
+expressions translate to derivations and back (claims with proof
+sketches, anchored at the term level to machine-checked theorems); the
+linear cut is the splicing of a pending wire into the hole it closes,
+resolving the ``mutual promise'' of two abstractions each waiting on
+the other as an unreduced composite; and feedback is legal exactly when
+guarded --- the diagrammatic form of the side condition that makes
+self-application cost a context. Well-formedness is compositional:
+there is no global correctness criterion, and the two linearity laws
+are not forbidden moves to be checked after writing but shapes the
+grammar simply cannot generate --- a linear wire has no junction, and a
+content wire has no bare end. Every diagram in this paper is drawn from
+a named, machine-checked derivation; the notation-level correspondence
+is stated, not mechanized.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
@@ -91,19 +97,22 @@ $\mathit{pair}$--$\mathit{lete}$ round trip) is drawn as an explicit
 swap-box rather than as isotopy. Its contributions:
 
 \begin{itemize}
-\item a \textbf{core graphical language} --- two wire gauges, boxes, the
-guard bead $\guard$ as a wire decorator, guarded feedback $\gfeed$, sinks
---- whose well-formedness is compositional
+\item a \textbf{written grammar} of five operators --- $\gknower$,
+$\glto$, $\guard$, $\gfeed$, $\gsink$ --- whose typed expressions are
+one-line agent definitions, with the two linearity laws as type errors
 (\S\ref{sec:core});
-\item the \textbf{Care signature} as labelled boxes, with the calculus's
-two linearity laws read as shapes the grammar cannot generate
-(\S\ref{sec:signature}, \S\ref{sec:laws});
+\item its \textbf{planar string-diagram reading} --- two wire gauges,
+guard beads, feedback envelopes --- in which the calculus's resource
+discipline is visible on the page (\S\ref{sec:core:reading});
+\item the \textbf{Care signature} as labelled boxes, with the laws'
+theorem statements and fragment strengths (\S\ref{sec:signature},
+\S\ref{sec:laws});
 \item \textbf{the correspondence stated precisely} --- five claims with
 proof sketches, each anchored at the term level to a named machine-checked
 theorem (\S\ref{sec:correspondence});
-\item two \textbf{worked diagrams}: the epistemic cycle, drawn from a
-machine-checked witness term, and the cut, drawn from a machine-checked
-substitution principle (\S\ref{sec:worked}).
+\item two \textbf{worked readings}: the epistemic cycle, written as one
+line and drawn from a machine-checked witness term; and the cut, drawn
+from a machine-checked substitution principle (\S\ref{sec:worked}).
 \end{itemize}
 
 What this paper is not: it is not new type theory --- every term-level
@@ -119,41 +128,98 @@ The Lean~4 development \texttt{Dcare} and the complete \LaTeX{} source of
 this paper, including the diagram macros of \texttt{guarded-syntax.sty},
 are available under GNU AGPL-3.0.
 
-\section{The core graphical language}\label{sec:core}
+\section{The Guarded Syntax as a written grammar}\label{sec:core}
 
-This section defines the notation's calculus-independent part
-(Fig.~\ref{fig:core}). It can be adopted for any ordered resource calculus;
-\S\ref{sec:signature} instantiates it for the Care Calculus.
+The Guarded Syntax is, first, a notation for \emph{writing}: five
+operators that compose into typed expressions, in which a whole agent
+definition fits on one line. Its two-dimensional reading --- glyphs laid
+out as wires on a page --- is derived afterwards
+(\S\ref{sec:core:reading}): the symbols are the syntax, the picture is a
+layout of the syntax.
+
+\subsection{The five operators}\label{sec:core:ops}
+
+\begin{center}
+\begin{tabular}{clp{60mm}}
+\textbf{glyph} & \textbf{name} & \textbf{role in the grammar}\\
+\hline
+$\gknower$ & the knower & the Cartesian source: the one sort that may be
+copied and discarded; every content token descends from one\\
+$\glto$ & the linear wire & the type $\tau \glto \sigma$: consumes the
+left, produces the right, exactly once\\
+$\guard$ & the guard & the type $\guard\tau$ and the prefix on recursive
+definitions: one interval of delay\\
+$\gfeed$ & the feed & the feedback operator $e \gfeed x$, binding a
+delayed output back into its own definition --- the $+1$\\
+$\gsink$ & the sink & the archive constant and its type: content is
+recorded there and never read --- the $-1$ debt\\
+\end{tabular}
+\end{center}
+
+The judgment is $\Gamma \vdash e : \tau$ --- ``$e$ realizes $\tau$ from
+the resources $\Gamma$'' --- with types and expressions:
+
+\begin{center}
+\fbox{\begin{minipage}{0.94\linewidth}\centering\vspace{3pt}
+$\begin{array}[t]{rcl}
+\tau & ::= & \tC \mid \tK \mid \tA \mid \tV \mid \tS \mid \tT \mid \tUnit
+   \mid \tau \glto \tau \mid \guard\tau \mid \tau \ten \tau\\[3pt]
+e & ::= & \gknower \mid x \mid \lambda x{:}\tau.\,e \mid e\,e
+   \mid e \ten e \mid \mathit{lete}\;e\;e \mid () \mid \guard e \mid e \gfeed x\\
+  & \mid & \mathit{cons}(e,e) \mid \mathit{nil} \mid \mathit{snoc}(e,e)
+   \mid \mathit{gen} \mid \mathit{red} \mid \mathit{obj} \mid \mathit{terminate}\\
+\end{array}$\vspace{3pt}
+\end{minipage}}
+\end{center}
+
+Every production re-skins a rule of the mechanized judgment: $\glto$ is
+its arrow at linear sorts, $\guard$ its delay, $e \gfeed x$ its guarded
+fixpoint (one lap of the feed consumes exactly one guard --- the $+1$),
+$\gknower$ marks a hypothesis of the knower sort, and $\gsink$
+abbreviates the archive constructors $\mathit{nil}$ and $\mathit{snoc}$.
+The notation adds no rule and removes none; that is the content of the
+correspondence stated in \S\ref{sec:correspondence}.
+
+\subsection{The two laws, as type errors}\label{sec:core:laws}
+
+The brief's two forbidden shapes are literally expressions that fail to
+type --- and the third line below is the surprise the mechanization
+forces:
+
+\begin{center}
+\fbox{\begin{minipage}{0.94\linewidth}\vspace{3pt}
+{\small $\mathit{clone} : \tC \glto \tC \ten \tC$}
+\hfill \lawerr\ no rule copies --- contraction exists only at
+$\gknower$\vspace{3pt}\\
+{\small $\mathit{erase} : \tC \glto \tUnit$}
+\hfill \lawerr\ a consumed token must be carried, reduced, or archived
+--- not dropped\vspace{3pt}\\
+{\small $\mathit{archive} : \tC \glto \gsink$}
+\hfill \checkmark\ \emph{legal}: the $-1$ debt, booked forever\vspace{3pt}
+\end{minipage}}
+\end{center}
+
+Archiving into $\gsink$ is derivable (\dcn{archival_witness}
+\meas{machine-checked}), so the sink is not an error site but the
+calculus's most loaded legal shape: the count certifies the token was
+spent, nothing certifies it was heard. The forbidden vanishing shape is
+the bare end ($\glto\,\tUnit$), not the sink. Section~\ref{sec:laws}
+carries the full statement table with fragment strengths.
+
+\subsection{The pictorial reading}\label{sec:core:reading}
+
 \input{figures/fig-core}
-
-\subsection{Wires and gauges}\label{sec:core:wires}
-
-A \emph{wire} is directed and carries one resource at a time; arrows point
-along dataflow. The notation has two gauges:
-
-\begin{itemize}
-\item \textbf{thin} wires ($\glto$) are \emph{linear}: the resource they
-carry is used exactly once. A thin wire has no junction: it cannot branch,
-and it cannot be discarded.
-\item \textbf{thick rails} are \emph{non-linear} (Cartesian at their
-sort): a rail may branch and may be discarded, and this is legal precisely
-because the sort it carries is duplicable.
-\end{itemize}
-
-The gauges are not decoration; they record the discipline the mechanized
-calculus enforces --- the counting lemma that every linear position is
-spent exactly once (the theorem \dcn{single_linear_use}
-\meas{machine-checked}), and the sort separation under which the one
-duplicable sort admits contraction while the resource sorts do not
-(\S\ref{sec:laws}).
-
-\subsection{Boxes}
-
-A \emph{box} is a node with typed ports. Boxes are opaque: their interior
-is either a signature constant (\S\ref{sec:signature}) or a larger diagram
-(composition). Composing two boxes is wiring output ports to input ports;
-juxtaposition is ordered tensor --- \emph{which} side a box sits on is
-information, not layout.
+Written expressions have a two-dimensional reading in which each glyph
+becomes a drawing element (Fig.~\ref{fig:core}); the rest of this paper
+uses both forms freely. A $\glto$-type is drawn as a directed thin wire;
+a $\gknower$-type as a thick rail --- the gauges record use-once versus
+copy-at-will, the discipline of the counting lemma
+(\dcn{single_linear_use} \meas{machine-checked}). $\guard$ decorates the
+wire it delays: a bead. $e \gfeed x$ is a dashed envelope around $e$
+whose loop carries the delayed binder back through a bead. $\gsink$ is
+the terminal. Boxes carry the named constants of the signature
+(\S\ref{sec:signature}); juxtaposition is ordered tensor --- \emph{which}
+side a box sits on is information, not layout.
 
 \subsection{The guard bead}\label{sec:core:bead}
 
@@ -345,15 +411,29 @@ is the forbidden shape, not the first.
 
 \input{figures/fig-cycle}
 Figure~\ref{fig:cycle} draws the calculus's central positive result: a
-live knower sustains an infinite guarded stream. The machine-checked
-witness \dcn{knower_sustains_stream} \meas{machine-checked}
-exhibits a closed term at context $[\tK]$:
+live knower sustains an infinite guarded stream. In the Guarded Syntax
+the cycle is one line --- the schematic form of the whole epistemic
+loop:
 \[
-\mathit{fix}\bigl(\lambda \guard\tS.\;
-  \mathit{lete}\,(\mathit{pair}(s,k))\;
-  \mathit{cons}(\mathit{extract}\ k,\ s)\bigr) : \tS
+\gknower \;:\; \tS \glto \bigl(\guard\tA \gfeed \gknower\bigr)
+\qquad\text{read: from the stream, guarded knowledge feeds back to the
+knower, one $\guard$ per lap;}
 \]
-where $\mathit{extract}$ fires the generator on $k$ and keeps the content
+and the machine-checked witness
+\dcn{knower_sustains_stream} \meas{machine-checked} exhibits its
+realization at context $[\tK]$:
+\[
+s \gfeed x.\;\texttt{let}\;(k,c) = \mathit{gen}\ \gknower\ \texttt{in}\
+  \mathit{cons}(c,\ x) \;:\; \tS
+\]
+where the feed's binder $x$ arrives already delayed (the binding
+\emph{is} the $\guard$: one lap of the feed consumes exactly one
+interval), and $\texttt{let}$ is the calculus's projection-free tensor
+elimination. In the judgment's own spelling this is
+$\mathit{fix}\bigl(\lambda \guard\tS.\;
+\mathit{lete}\,(\mathit{pair}(s,k))\;
+\mathit{cons}(\mathit{extract}\ k,\ s)\bigr) : \tS$, where
+$\mathit{extract}$ fires the generator on $k$ and keeps the content
 half (the knower half returns to the rail and is discarded --- legal for a
 rail). Read the diagram one lap at a time. The thick rail crosses the
 envelope --- the only wire that may --- and the generator fires on it,

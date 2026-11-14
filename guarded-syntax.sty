@@ -32,16 +32,18 @@
 \newcommand{\ten}{\otimes}
 \newcommand{\later}[1]{\guard #1}
 
-%% ---------- the primitives of the notation ----------
+%% ---------- the five operators of the grammar ----------
 %% We typeset the circled bullet of the spec as \odot and the trace sink as
 %% \bot; both are macro-swappable.
-\newcommand{\gknower}{\odot}              % ⦿  the knower node
+\newcommand{\gknower}{\odot}              % ⦿  the knower source
 \newcommand{\glto}{\multimap}             % ⊸  the linear wire
-\newcommand{\guard}{\triangleright}       % ▷  the guard bead (wire decorator)
-\newcommand{\gfeed}{\circlearrowleft}     % ↺  guarded feedback
-\newcommand{\gsink}{\bot}                 % ⊥  the archive sink (NOT falsity)
-\newcommand{\gswap}{\rightleftarrows}     % ⇄  the definable swap-box
-\newcommand{\gdiscard}{\circ}             % discard terminator (thick wires only)
+\newcommand{\guard}{\triangleright}       % ▷  the guard (delay) operator
+\newcommand{\gfeed}{\circlearrowleft}     % ↺  feedback (the +1)
+\newcommand{\gsink}{\bot}                 % ⊥  the archive sink, the -1 debt
+\newcommand{\gswap}{\rightleftarrows}     % ⇄  the definable swap
+\newcommand{\gdiscard}{\circ}             % discard terminator (rails only)
+\newcommand{\lawerr}{\text{\normalfont\large\textcolor{lawred}{$\times$}}}
+\definecolor{lawred}{rgb}{0.75,0.1,0.1}
 
 %% ---------- claim labels and status discipline ----------
 %% MEASURED is used ONLY next to a cited Dcare.* declaration name

@@ -3,8 +3,9 @@
 \centering
 \begin{tikzpicture}[node distance=4mm]
   % (1) linear wire
-  \node[lbl] (l1) at (0,0) {linear wire ($\protect\glto$):};
+  \node[lbl] (l1) at (0,0) {linear wire $\glto$:};
   \draw[wire] (5.6,0) -- (8.0,0);
+  \node at (6.8,0.22) {$\glto$};
   % (2) non-linear rail
   \node[lbl] (l2) at (0,-0.75) {non-linear rail (the thick rail):};
   \draw[thickwire] (5.6,-0.75) -- (8.0,-0.75);
