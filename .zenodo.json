@@ -1,8 +1,8 @@
 {
-  "title": "The Guarded Syntax: A String-Diagram Notation for Linear Resource Calculi",
+  "title": "The Guarded Syntax: A Notation for Linear Resource Calculi",
   "upload_type": "publication",
   "publication_type": "preprint",
-  "description": "<p>We introduce the Guarded Syntax, a written notation for the Care Calculus, a multi-sorted ordered linear logic with coalgebraic generators and guarded recursion, mechanized in Lean 4. The notation has five operators: the knower, the one Cartesian source; the linear wire, which consumes the left and produces the right exactly once; the guard, one interval of delay; the feed, which binds a delayed output back into its own definition (the +1); and the sink, the archive where content is recorded and never read (the -1).</p><p>Agent definitions are one-line expressions of this grammar, and they have a planar string-diagram reading — wires in two gauges, guard beads, feedback envelopes — that the paper develops alongside: the standard diagram languages build in a symmetry that ordered resource calculi do not have, so the reading is planar, and the one definable exchange is an explicit swap-box. The calculus's two linearity laws appear twice: as expressions that fail to type (a cloner, an eraser — the archive is legal, and the difference is load-bearing), and as theorem statements with machine-checked fragment strengths.</p><p>The correspondence is stated precisely: well-formed expressions translate to derivations and back, with claims carrying proof sketches and term-level anchors to machine-checked theorems; the linear cut is the splicing of a pending wire into the hole it closes, resolving the mutual promise of two abstractions each waiting on the other; and feedback is legal exactly when guarded. Well-formedness is compositional: there is no global correctness criterion, and the two linearity laws are not forbidden moves to be checked after writing but shapes the grammar simply cannot generate. Every diagram in the paper is drawn from a named, machine-checked derivation; the notation-level correspondence is stated, not mechanized.</p>",
+  "description": "<p>We introduce the Guarded Syntax, a written notation for the Care Calculus, a multi-sorted ordered linear logic with coalgebraic generators and guarded recursion, mechanized in Lean 4. The notation has five operators: the knower, the one Cartesian source; the linear wire, which consumes the left and produces the right exactly once; the guard, one interval of delay; the feed, which binds a delayed output back into its own definition (the +1); and the sink, the archive where content is recorded and never read (the -1). Agent definitions are one-line expressions of this grammar; the notation's operators of consumption, delay and feedback answer exactly the calculus's three structural questions, typographically.</p><p>The calculus's two linearity laws appear as expressions that fail to type — a cloner and an eraser are unwritable, while the archive is legal, and that difference is load-bearing — with the laws' theorem statements and machine-checked fragment strengths alongside. The correspondence is stated precisely: well-formed expressions translate to derivations and back, with claims carrying proof sketches and term-level anchors to machine-checked theorems; the linear cut is the rewrite rule that splices a pending binder into the hole it closes, resolving the mutual promise of two abstractions each waiting on the other; and the feed is legal exactly when guarded — the form of the side condition that makes self-application cost a context.</p><p>Well-formedness is compositional: there is no global correctness criterion, and the two linearity laws are not forbidden moves to be checked after writing but shapes the grammar simply cannot generate — a linear wire has no junction, and a content wire has no bare end. Every expression in the paper is drawn from a named, machine-checked derivation; the notation-level correspondence is stated, not mechanized.</p>",
   "creators": [
     {
       "name": "Jaye Timothy Marshall",
@@ -10,21 +10,21 @@
     }
   ],
   "keywords": [
-    "string diagrams",
     "linear logic",
-    "proof nets",
+    "linear type theory",
     "ordered linear logic",
     "resource calculi",
     "guarded recursion",
     "later modality",
     "coalgebra",
+    "notation",
     "syntax",
-    "planar notation",
+    "proof theory",
     "mechanized proof",
     "Lean 4"
   ],
   "license": "agpl-3.0-or-later",
-  "notes": "Deposit license is AGPL-3.0-or-later (see LICENSE), covering the paper's LaTeX source (paper.tex), its figures and macros (figures/, guarded-syntax.sty), the compiled paper (paper.pdf), and the gate scripts (scripts/) — matching the paper's own Artifact availability paragraph. The companion Lean 4 mechanization (Dcare) that the paper's anchors refer to is developed separately and is not part of this deposit; scripts/sync-check.sh is how the paper's anchors are checked against a checkout of it. Two of the paper's 21 anchors, Dcare.no_vanishing_fix_conditional and Dcare.no_vanishing_fixfree_conditional (both in Dcare/Chase.lean), postdate the Chase.lean in the public coglib checkout and are therefore unverified against it.",
+  "notes": "Deposit license is AGPL-3.0-or-later (see LICENSE), covering the paper's LaTeX source (paper.tex), its macros (guarded-syntax.sty), the compiled paper (paper.pdf), and the gate scripts (scripts/) — matching the paper's own Artifact availability paragraph. The paper carries no figures or drawings: the notation is written, and the gate enforces that. The companion Lean 4 mechanization (Dcare) that the paper's anchors refer to is developed separately and is not part of this deposit; scripts/sync-check.sh is how the paper's anchors are checked against a checkout of it. Two of the paper's 20 anchors, Dcare.no_vanishing_fix_conditional and Dcare.no_vanishing_fixfree_conditional (both in Dcare/Chase.lean), postdate the Chase.lean in the public coglib checkout and are therefore unverified against it.",
   "related_identifiers": [
     {
       "relation": "isSupplementedBy",

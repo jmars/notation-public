@@ -20,7 +20,7 @@ sed 's/\\dcn{\([^}]*\)}/Dcare.\1/g' "$PAPER" \
 
 # --- 1. required sections ---
 for s in "Introduction" "as a written grammar" "The Care signature" \
-         "as ungeneratable shapes" "worked diagrams" "The correspondence, stated precisely" \
+         "as unwritable expressions" "worked readings" "The correspondence, stated precisely" \
          "Related work" "Interpretive remarks" "Conclusion"; do
   if rg -q "\\\\section\{.*$s" "$PAPER"; then green "PASS section: $s"
   else red "FAIL missing section: $s"; fail=1; fi
@@ -90,7 +90,7 @@ rg -q 'The five operators' "$PAPER" && green "PASS operator table" \
 ne=$(rg -c '\\lawerr\b' "$PAPER" || echo 0)
 if [ "${ne:-0}" -ge 2 ]; then green "PASS law-error displays ($ne)"
 else red "FAIL law-error displays: ${ne:-0} < 2"; fail=1; fi
-rg -q 'schematic form of the' "$PAR" && green "PASS one-line cycle (the schematic display)" \
+rg -q 'epistemic loop is one line' "$PAR" && green "PASS one-line cycle (the schematic display)" \
   || { red "FAIL no one-line cycle schematic"; fail=1; }
 
 # --- 7. related work present and populated ---
@@ -103,13 +103,10 @@ fi
 # --- 8. availability note ---
 rg -q 'AGPL' "$PAPER" && green "PASS availability (AGPL)" || { red "FAIL no AGPL note"; fail=1; }
 
-# --- 9. every figure file referenced exists ---
-bad=0
-while IFS= read -r f; do
-  [ -f "$HERE/../$f.tex" ] || { red "FAIL missing figure file: $f.tex"; bad=1; }
-done < <(rg -o '\\input\{figures/[^}]+\}' "$PAPER" -r '$0' | sed 's/\\input{//;s/}//' || true)
-[ "$bad" -eq 0 ] && green "PASS figure files exist"
-[ "$bad" -eq 1 ] && fail=1
+# --- 9. no figures: the notation is written, not drawn ---
+nf=$(rg -c '\\input\{figures/|\\includegraphics|\\begin\{tikzpicture\}|\\begin\{figure\}' "$PAPER" || echo 0)
+if [ "${nf:-0}" -eq 0 ]; then green "PASS no figures (written notation only)"
+else red "FAIL figure/drawing count: $nf — the wire diagrams were removed; the paper is written"; fail=1; fi
 
 rm -f "$PAR"
 echo "----------------------------------------"
