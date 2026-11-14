@@ -6,39 +6,45 @@ Artifact for the paper `paper.tex`:
 
 **Published: concept doi [10.5281/zenodo.24221796](https://doi.org/10.5281/zenodo.24221796)** —
 it always resolves to the latest archived version. Cite the paper by the concept DOI;
-[v1.0.0](https://doi.org/10.5281/zenodo.24221797) is the first archived version.
+[v1.1.0](<!-- v1.1.0 DOI PENDING -->) is the current archived version and
+[v1.0.0](https://doi.org/10.5281/zenodo.24221797) the first.
 
-String diagrams give linear proof theory a geometry, but the standard diagrams —
-proof nets, and the symmetric-monoidal calculus of Joyal and Street — build in a
-symmetry that ordered resource calculi do not have. This paper introduces the
-**Guarded Syntax**: a planar string-diagram notation for the Care Calculus, a
-multi-sorted ordered linear logic with coalgebraic generators and guarded
-recursion, mechanized in Lean 4.
+The **Guarded Syntax** is a written notation for the Care Calculus, a multi-sorted
+ordered linear logic with coalgebraic generators and guarded recursion, mechanized
+in Lean 4. The notation has five operators: the knower `⦿`, the one Cartesian
+source; the linear wire `⊸`, which consumes the left and produces the right exactly
+once; the guard `▷`, one interval of delay; the feed `↺`, which binds a delayed
+output back into its own definition (the `+1`); and the sink `⊥`, the archive where
+content is recorded and never read (the `-1`). Agent definitions are one-line
+expressions of this grammar.
 
-The notation separates into a core graphical language — planar directed wires in
-two gauges, boxes, a delay bead `▷` decorating a wire, and a feedback envelope
-`↺` whose loops must pass through at least one guard — and a signature of generators:
-the knower node, the one sort whose wires may branch; the reducer, archive and
-valuation boxes; and the trace sink, where content can legally go to die. The
-correspondence is stated precisely: well-formed diagrams translate to derivations
-and back; the linear cut is diagrammatically the splicing of a wire into the hole
+The grammar also has a planar string-diagram reading — wires in two gauges, guard
+beads, feedback envelopes — developed alongside it: the standard diagram languages
+build in a symmetry that ordered resource calculi do not have, so the reading is
+planar, and the one definable exchange is an explicit swap-box. The calculus's two
+linearity laws appear twice: as expressions that fail to type (a cloner, an eraser
+— the archive is legal, and the difference is load-bearing), and as theorem
+statements with machine-checked fragment strengths.
+
+The correspondence is stated precisely: well-formed expressions translate to
+derivations and back; the linear cut is the splicing of a pending wire into the hole
 it closes; and feedback is legal exactly when guarded. Well-formedness is
-compositional — there is no global correctness criterion, and the calculus's two
-linearity laws are not forbidden moves to be checked after drawing but shapes the
-grammar simply cannot generate.
+compositional — there is no global correctness criterion, and the two linearity
+laws are not forbidden moves to be checked after writing but shapes the grammar
+simply cannot generate.
 
 Every diagram in the paper is drawn from a named, machine-checked derivation. The
-diagram-level correspondence is stated as claims with proof sketches, not
+notation-level correspondence is stated as claims with proof sketches, not
 mechanized; the paper says so in its own voice.
 
 ## Layout
 
 | path | contents |
 |---|---|
-| `paper.tex` | the paper (LaTeX, EPTCS document class — the source of truth) |
+| `paper.tex` | the paper (LaTeX, EPTCS document class — the source of truth): §2 gives the grammar, its five operators and its two laws |
 | `paper.pdf` | the compiled paper, built by `scripts/build.sh` |
 | `guarded-syntax.sty` | the notation's LaTeX macros — the diagram vocabulary the paper is written in |
-| `figures/*.tex` | the six figures, each a named machine-checked derivation drawn with those macros |
+| `figures/*.tex` | the six figures — the pictorial reading of the grammar, each drawn from a named machine-checked derivation |
 | `eptcs.cls`, `eptcs.bst` | the EPTCS class and bibliography style (v1.7, from eptcs.org) |
 | `refs.bib` | the bibliography |
 | `citations.md` | the citation ledger — one row per citation, with the claim it supports, its source, and its verification status; no reference ships in the paper without a row |

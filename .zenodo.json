@@ -2,7 +2,7 @@
   "title": "The Guarded Syntax: A String-Diagram Notation for Linear Resource Calculi",
   "upload_type": "publication",
   "publication_type": "preprint",
-  "description": "<p>String diagrams give linear proof theory a geometry, but the standard diagrams — proof nets, and the symmetric-monoidal calculus of Joyal and Street — build in a symmetry that ordered resource calculi do not have. This paper introduces the Guarded Syntax: a planar string-diagram notation for the Care Calculus, a multi-sorted ordered linear logic with coalgebraic generators and guarded recursion, mechanized in Lean 4.</p><p>The notation separates into a core graphical language — planar directed wires in two gauges, boxes, a delay bead decorating a wire, and a feedback envelope whose loops must pass through at least one guard — and a signature of generators: the knower node, the one sort whose wires may branch; the reducer, archive and valuation boxes; and the trace sink, where content can legally go to die. The correspondence is stated precisely: well-formed diagrams translate to derivations and back, with claims carrying proof sketches and term-level anchors to machine-checked theorems; the linear cut is diagrammatically the splicing of a wire into the hole it closes, resolving the mutual promise of two abstractions each waiting on the other; and feedback is legal exactly when guarded. Well-formedness is compositional: there is no global correctness criterion, and the calculus's two linearity laws are not forbidden moves to be checked after drawing but shapes the grammar simply cannot generate — a linear wire has no junction, and a content wire has no bare end.</p><p>Every diagram in the paper is drawn from a named, machine-checked derivation. The diagram-level correspondence is stated, not mechanized.</p>",
+  "description": "<p>We introduce the Guarded Syntax, a written notation for the Care Calculus, a multi-sorted ordered linear logic with coalgebraic generators and guarded recursion, mechanized in Lean 4. The notation has five operators: the knower, the one Cartesian source; the linear wire, which consumes the left and produces the right exactly once; the guard, one interval of delay; the feed, which binds a delayed output back into its own definition (the +1); and the sink, the archive where content is recorded and never read (the -1).</p><p>Agent definitions are one-line expressions of this grammar, and they have a planar string-diagram reading — wires in two gauges, guard beads, feedback envelopes — that the paper develops alongside: the standard diagram languages build in a symmetry that ordered resource calculi do not have, so the reading is planar, and the one definable exchange is an explicit swap-box. The calculus's two linearity laws appear twice: as expressions that fail to type (a cloner, an eraser — the archive is legal, and the difference is load-bearing), and as theorem statements with machine-checked fragment strengths.</p><p>The correspondence is stated precisely: well-formed expressions translate to derivations and back, with claims carrying proof sketches and term-level anchors to machine-checked theorems; the linear cut is the splicing of a pending wire into the hole it closes, resolving the mutual promise of two abstractions each waiting on the other; and feedback is legal exactly when guarded. Well-formedness is compositional: there is no global correctness criterion, and the two linearity laws are not forbidden moves to be checked after writing but shapes the grammar simply cannot generate. Every diagram in the paper is drawn from a named, machine-checked derivation; the notation-level correspondence is stated, not mechanized.</p>",
   "creators": [
     {
       "name": "Jaye Timothy Marshall",
@@ -18,10 +18,23 @@
     "guarded recursion",
     "later modality",
     "coalgebra",
+    "syntax",
     "planar notation",
     "mechanized proof",
     "Lean 4"
   ],
   "license": "agpl-3.0-or-later",
-  "notes": "Deposit license is AGPL-3.0-or-later (see LICENSE), covering the paper's LaTeX source (paper.tex), its figures and macros (figures/, guarded-syntax.sty), the compiled paper (paper.pdf), and the gate scripts (scripts/) — matching the paper's own Artifact availability paragraph. The companion Lean 4 mechanization (Dcare) that the paper's anchors refer to is developed separately and is not part of this deposit; scripts/sync-check.sh is how the paper's anchors are checked against a checkout of it. Two of the paper's 21 anchors, Dcare.no_vanishing_fix_conditional and Dcare.no_vanishing_fixfree_conditional (both in Dcare/Chase.lean), postdate the Chase.lean in the public coglib checkout and are therefore unverified against it."
+  "notes": "Deposit license is AGPL-3.0-or-later (see LICENSE), covering the paper's LaTeX source (paper.tex), its figures and macros (figures/, guarded-syntax.sty), the compiled paper (paper.pdf), and the gate scripts (scripts/) — matching the paper's own Artifact availability paragraph. The companion Lean 4 mechanization (Dcare) that the paper's anchors refer to is developed separately and is not part of this deposit; scripts/sync-check.sh is how the paper's anchors are checked against a checkout of it. Two of the paper's 21 anchors, Dcare.no_vanishing_fix_conditional and Dcare.no_vanishing_fixfree_conditional (both in Dcare/Chase.lean), postdate the Chase.lean in the public coglib checkout and are therefore unverified against it.",
+  "related_identifiers": [
+    {
+      "relation": "isSupplementedBy",
+      "identifier": "https://github.com/jmars/notation-public",
+      "resource_type": "software"
+    },
+    {
+      "relation": "references",
+      "identifier": "10.5281/zenodo.24122159",
+      "resource_type": "publication-other"
+    }
+  ]
 }
