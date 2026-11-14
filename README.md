@@ -6,7 +6,7 @@ Artifact for the paper `paper.tex`:
 
 **Published: concept doi [10.5281/zenodo.24221796](https://doi.org/10.5281/zenodo.24221796)** —
 it always resolves to the latest archived version. Cite the paper by the concept DOI;
-[v1.1.0](<!-- v1.1.0 DOI PENDING -->) is the current archived version and
+[v1.1.0](https://doi.org/10.5281/zenodo.24226078) is the current archived version and
 [v1.0.0](https://doi.org/10.5281/zenodo.24221797) the first.
 
 The **Guarded Syntax** is a written notation for the Care Calculus, a multi-sorted
